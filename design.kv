@@ -1,0 +1,800 @@
+<MainScreen>:
+    GridLayout:
+        cols:1
+        GridLayout:
+            cols:1
+            padding:15,15
+            spacing:20,20
+            Label:
+                text:"Login"
+                font_size:"20sp"
+            RelativeLayout:
+                Button:
+                    text:"Admin"
+                    on_press : root.goto_admin_page()
+                    size_hint :0.3,0.5
+                    pos_hint: {'center_x' : 0.5 , 'center_y' : 0.6}
+            RelativeLayout:
+                Button:
+                    text:"Agent"
+                    on_press : root.goto_agent_page()
+                    size_hint :0.3,0.5
+                    pos_hint: {'center_x' : 0.5 , 'center_y' : 0.6}
+            RelativeLayout:
+                Button:
+                    text: "Customer"
+                    on_press:root.goto_customer_page()
+                    size_hint :0.3,0.5
+                    pos_hint: {'center_x' : 0.5 , 'center_y' : 0.6}
+
+<AdminScreenFirst>:
+    GridLayout:
+        cols:1
+        padding:15,15
+        spacing:20,20
+        Label:
+            text:"Admin Login"
+            font_size:"20sp"
+        TextInput:
+            id:username
+            hint_text:"Username"
+        TextInput:
+            id:password
+            password:True
+            hint_text:"Password"
+        RelativeLayout:
+            Button:
+                text:"Login"
+                on_press : root.go_to_adminsecond(root.ids.username.text,root.ids.password.text)
+                size_hint :0.3,0.5
+                pos_hint: {'center_x' : 0.5 , 'center_y' : 0.6}
+        Label:
+            id:login_wrong
+            text:""
+<AdminScreenSecond>:
+    GridLayout:
+        cols:1
+        padding:15,15
+        spacing:20,20
+        Label:
+            text:"Loan"
+            font_size:"20sp"
+        Button:
+            text:"All Loan Request"
+            on_press:root.go_to_adminpending()
+        Button:
+            text:"Approved"
+            on_press: root.go_to_adminapproved()
+        Button:
+            text:"Rejected"
+            on_press: root.go_to_adminrejected()
+
+<AdminPendingScreen>:
+    GridLayout:
+        cols:1
+        padding:15,15
+        spacing:20,20
+        Label:
+            text:"Loans"
+        RelativeLayout:
+            Button:
+                text:"Display"
+                on_press: root.display()
+                size_hint :0.3,0.5
+                pos_hint: {'center_x' : 0.5 , 'center_y' : 0.6}
+        Label:
+            id:display
+            text:""
+
+<TextInputPopup>:
+    title: "Popup"
+    size_hint: None, None
+    size: 400, 400
+    auto_dismiss: False
+
+    BoxLayout:
+        orientation: "vertical"
+        TextInput:
+            id: txtinput
+            text: root.obj_text
+        Button:
+            size_hint: 1, 0.2
+            text: "Save Changes"
+            on_release:
+                root.obj.update_changes(txtinput.text)
+                root.dismiss()
+        Button:
+            size_hint: 1, 0.2
+            text: "Cancel Changes"
+            on_release: root.dismiss()
+
+<RV>:
+    BoxLayout:
+        orientation: "vertical"
+        RelativeLayout:
+            ImageButton:
+                on_press : root.logout_screen()
+                source: 'logout_hover.png' if self.hovered else 'logout_nothover.png'
+                size_hint : 0.20,0.20
+                height: 20
+                pos_hint : {'center_x' : 0.90 , 'center_y' : 0.8}
+
+        GridLayout:
+            size_hint: 1, None
+            size_hint_y: None
+            height: 25
+            cols: 11
+            Label:
+                text: "LoanID"
+            Label:
+                text: "Name"
+            Label:
+                text:"Tenure"
+            Label:
+                text:"Balance"
+            Label:
+                text:"LoanType"
+            Label:
+                text:"InterestType"
+            Label:
+                text:"Interest % p.a."
+            Label:
+                text:"Security"
+            Label:
+                text:"Total"
+            Label:
+                text:"EMI"
+            Label:
+                text:"Request"
+
+        BoxLayout:
+            RecycleView:
+                viewclass: 'SelectableButton'
+                data: [{'text': str(x)} for x in root.data_items]
+                SelectableRecycleGridLayout:
+                    cols: 11
+                    default_size: None, dp(26)
+                    default_size_hint: 1, None
+                    size_hint_y: None
+                    height: self.minimum_height
+                    #orientation: 'vertical'
+                    multiselect: True
+                    touch_multiselect: True
+
+<APV>:
+    BoxLayout:
+        orientation: "vertical"
+        RelativeLayout:
+            ImageButton:
+                on_press : root.logout_screen()
+                source: 'logout_hover.png' if self.hovered else 'logout_nothover.png'
+                size_hint : 0.20,0.20
+                height: 20
+                pos_hint : {'center_x' : 0.90 , 'center_y' : 0.8}
+        RelativeLayout:
+            Label:
+                text:"Approved Loans"
+                size_hint :0.3,0.5
+                pos_hint: {'center_x' : 0.5 , 'center_y' : 0.6}
+        GridLayout:
+            size_hint: 1, None
+            size_hint_y: None
+            height: 25
+            cols: 11
+
+            Label:
+                text: "LoanID"
+            Label:
+                text: "Name"
+            Label:
+                text:"Tenure"
+            Label:
+                text:"Balance"
+            Label:
+                text:"LoanType"
+            Label:
+                text:"InterestType"
+            Label:
+                text:"Interest % p.a."
+            Label:
+                text:"Security"
+            Label:
+                text:"Total"
+            Label:
+                text:"EMI"
+            Label:
+                text:"Request"  
+
+        BoxLayout:
+            RecycleView:
+                viewclass: 'SelectableLabel'
+                data: [{'text': str(x)} for x in root.data_items]
+                SelectableRecycleGridLayout:
+                    cols: 11
+                    default_size: None, dp(26)
+                    default_size_hint: 1, None
+                    size_hint_y: None
+                    height: self.minimum_height
+                    #orientation: 'vertical'
+                    multiselect: True
+                    touch_multiselect: True
+
+<REV>:
+    BoxLayout:
+        orientation: "vertical"
+        RelativeLayout:
+            ImageButton:
+                on_press : root.logout_screen()
+                source: 'logout_hover.png' if self.hovered else 'logout_nothover.png'
+                size_hint : 0.20,0.20
+                height: 20
+                pos_hint : {'center_x' : 0.90 , 'center_y' : 0.8}
+        RelativeLayout:
+            Label:
+                text:"Rejected Loans"
+                size_hint :0.3,0.5
+                pos_hint: {'center_x' : 0.5 , 'center_y' : 0.6}
+        GridLayout:
+            size_hint: 1, None
+            size_hint_y: None
+            height: 25
+            cols: 11
+
+            Label:
+                text: "LoanID"
+            Label:
+                text: "Name"
+            Label:
+                text:"Tenure"
+            Label:
+                text:"Balance"
+            Label:
+                text:"LoanType"
+            Label:
+                text:"InterestType"
+            Label:
+                text:"Interest % p.a."
+            Label:
+                text:"Security"
+            Label:
+                text:"Total"
+            Label:
+                text:"EMI"
+            Label:
+                text:"Request"  
+
+        BoxLayout:
+            RecycleView:
+                viewclass: 'SelectableLabel'
+                data: [{'text': str(x)} for x in root.data_items]
+                SelectableRecycleGridLayout:
+                    cols: 11
+                    default_size: None, dp(26)
+                    default_size_hint: 1, None
+                    size_hint_y: None
+                    height: self.minimum_height
+                    #orientation: 'vertical'
+                    multiselect: True
+                    touch_multiselect: True
+
+
+<AgentScreenFirst>:
+    GridLayout:
+        cols:1
+        GridLayout:
+            cols:1
+            padding:15,15
+            spacing:20,20
+            Label:
+                text:"Agent Login"
+                font_size:"20sp"
+            TextInput:
+                id:username
+                hint_text:"Username"
+            TextInput:
+                id:password
+                password:True
+                hint_text:"Password"
+            RelativeLayout:
+                Button:
+                    text:"Login"
+                    on_press : root.go_to_agentsecond(root.ids.username.text,root.ids.password.text)
+                    size_hint :0.3,0.5
+                    pos_hint: {'center_x' : 0.5 , 'center_y' : 0.6}
+            Label:
+                id:login_wrong
+                text:""
+        GridLayout:
+            cols:2
+            size_hint:0.2,0.2
+            padding:10,10
+            spacing:10,0
+            Button:
+                text:"Forgot Password"
+                on_press:root.forgot_password()
+                background_color: 1,1,1,0
+                opacity: 1 if self.state == 'normal' else 0.6
+                color: 0.4,0.7,0.6,1
+            Button:
+                text:"Sign Up"
+                on_press: root.sign_up()
+                background_color: 1,1,1,0
+                opacity: 1 if self.state == 'normal' else 0.6
+                color: 0.4,1,0.4,1
+
+<AgentSignUpScreen>:
+    GridLayout:
+        cols:1
+        padding:20,20
+        spacing:20,20
+        Label:
+            text:"Agent Sign Up"
+            text_size:self.width,None
+            size_hint_y:None
+            height:self.texture_size[1]
+        TextInput:
+            id: username
+            hint_text:"New Username " 
+        TextInput:
+            id: password
+            hint_text: "Password" 
+        TextInput:
+            id:bankid
+            hint_text:"Bank Agent Number? "
+        RelativeLayout:
+            Button:
+                text:"Submit" 
+                on_press: root.add_user(root.ids.username.text,root.ids.password.text,root.ids.bankid.text)    
+                size_hint :0.3,0.5
+                pos_hint: {'center_x' : 0.5 , 'center_y' : 0.6}
+
+<AgtForgotPasswordScreen>:
+    GridLayout:
+        cols:1
+        padding:30,30
+        spacing: 30,30
+        Label:
+            text:"If You have forgot the password"
+        TextInput:
+            id:username
+            hint_text:"Username"
+        Label:
+            text:"Bank Agent Number?"
+        TextInput:
+            id:bankid
+            hint_text:"Your Answer."
+        RelativeLayout:
+            Button:
+                text:"Get your password."
+                on_press : root.fetch_answer(root.ids.username.text,root.ids.bankid.text)
+                background_color: 1,1,1,0
+                opacity: 1 if self.state == 'normal' else 0.6
+                color: 0.8,0.6,0.5,1
+                pos_hint: {'center_x' : 0.5 , 'center_y' : 0.6}
+        Label:
+            id:answer
+            text:""
+            text_size:self.width,None
+            size_hint_y:None
+            height:self.texture_size[1]
+        RelativeLayout:
+            Button:
+                text:"Login"
+                on_press: root.go_to_loginpage()
+                size_hint :0.3,0.5
+                pos_hint: {'center_x' : 0.5 , 'center_y' : 0.6}
+
+<AgentScreenSecond>:
+    GridLayout:
+        cols:1
+        padding:15,15
+        spacing:20,20
+        Label:
+            text:"Loan"
+            font_size:"20sp"
+        Button:
+            text:"View Loans"
+            on_press:root.go_to_agentviewloans()
+        Button:
+            text:"Add New Loan"
+            on_press: root.go_to_agentaddloan()
+
+<VV>:
+    BoxLayout:
+        padding:15,15
+        spacing:20,20
+        orientation: "vertical"
+        RelativeLayout:
+            ImageButton:
+                on_press : root.logout_screen()
+                source: 'logout_hover.png' if self.hovered else 'logout_nothover.png'
+                size_hint : 0.20,0.20
+                height: 20
+                pos_hint : {'center_x' : 0.90 , 'center_y' : 0.8}
+        GridLayout:
+            size_hint: 1, None
+            size_hint_y: None
+            height: 25
+            cols: 11
+            Label:
+                text: "LoanID"
+            Label:
+                text: "Name"
+            Label:
+                text:"Tenure"
+            Label:
+                text:"Balance"
+            Label:
+                text:"LoanType"
+            Label:
+                text:"InterestType"
+            Label:
+                text:"Interest % p.a."
+            Label:
+                text:"Security"
+            Label:
+                text:"Total"
+            Label:
+                text:"EMI"
+            Label:
+                text:"Request"  
+
+        BoxLayout:
+            RecycleView:
+                viewclass: 'SelectableLabel'
+                data: [{'text': str(x)} for x in root.data_items]
+                SelectableRecycleGridLayout:
+                    cols: 11
+                    default_size: None, dp(26)
+                    default_size_hint: 1, None
+                    size_hint_y: None
+                    height: self.minimum_height
+                    #orientation: 'vertical'
+                    multiselect: True
+                    touch_multiselect: True
+
+<AgentAddScreen>:
+    GridLayout:
+        cols:1
+        padding:15,15
+        spacing:20,20
+        RelativeLayout:
+            ImageButton:
+                on_press : root.logout_screen()
+                source: 'logout_hover.png' if self.hovered else 'logout_nothover.png'
+                size_hint : 0.35,0.35
+                pos_hint : {'center_x' : 0.93 , 'center_y' : 0.8}
+        Label:
+            text:"Apply for New Loan"
+            font_size:"20sp"
+        TextInput:
+            id:customername
+            hint_text:"Customer Name"
+        TextInput:
+            id:balance
+            hint_text:"Loan Amount Balance "
+        TextInput:
+            id:loantype
+            hint_text:"Type of Loan:property,education,personal,Business"
+        TextInput:
+            id:interesttype
+            hint_text:"Fixed or Variable" 
+        TextInput:
+            id:security
+            hint_text:"Security"
+        RelativeLayout:
+            Button:
+                text:"Get the interest"
+                on_press : root.go_to_interestrate(root.ids.loantype.text,root.ids.interesttype.text)
+                size_hint :0.3,0.5
+                pos_hint: {'center_x' : 0.5 , 'center_y' : 0.6}
+        Label:
+            id:interestrate
+            text:""
+        TextInput:
+            id:tenure
+            hint_text:"Tenure or Loan Term(Years)"
+        RelativeLayout:
+            Button:
+                text:"Confirm"
+                on_press : root.go_to_confirm(root.ids.customername.text,root.ids.balance.text,root.ids.loantype.text,root.ids.interesttype.text,root.ids.tenure.text,root.ids.security.text)
+                size_hint :0.3,0.5
+                pos_hint: {'center_x' : 0.5 , 'center_y' : 0.6}
+
+<AgentAddSuccessful>:
+    GridLayout:
+        cols:1
+        padding:15,15
+        spacing:20,20
+        Label:
+            text:"To Confirm type the customer name"
+            font_size:"20sp"
+        TextInput:
+            id:customer
+            hint_text:"Customer Name"
+        Button:
+            text:"Data"
+            on_press:root.go_to_fetchdata(root.ids.customer.text)
+        Label:
+            id:tenure
+            text:""
+        Label:
+            id:balance
+            text:""
+        Label:
+            id:ltype
+            text:""
+        Label:
+            id:itype
+            text:""
+        Label:
+            id:interest
+            text:""
+        Label:
+            id:security
+            text:""
+        Label:
+            id:tpay
+            text:""
+        Label:
+            id:moninst
+            text:"" 
+        Button:
+            text:"Apply" 
+            on_press:root.go_to_applysuccessfull()
+
+<AgentApplySuccesful>:
+    GridLayout:
+        cols:1
+        padding:15,15
+        spacing:20,20
+        RelativeLayout:
+            ImageButton:
+                on_press : root.logout_screen()
+                source: 'logout_hover.png' if self.hovered else 'logout_nothover.png'
+                size_hint : 0.20,0.20
+                height: 20
+                pos_hint : {'center_x' : 0.90 , 'center_y' : 0.8}
+        Label:
+            text:"The Loan has been applied. Waiting For Approval"
+            font_size:"20sp"
+
+<CustomerSignInScreen>:
+    GridLayout:
+        cols:1
+        GridLayout:
+            cols:1
+            padding:15,15
+            spacing:20,20
+            Label:
+                text:"Customer Login"
+                font_size:"20sp"
+            TextInput:
+                id:username
+                hint_text:"Username"
+            TextInput:
+                id:password
+                password:True
+                hint_text:"Password"
+            RelativeLayout:
+                Button:
+                    text:"Login"
+                    on_press : root.go_to_customerecord(root.ids.username.text,root.ids.password.text)
+                    size_hint :0.3,0.5
+                    pos_hint: {'center_x' : 0.5 , 'center_y' : 0.6}
+            Label:
+                id:login_wrong
+                text:""
+        GridLayout:
+            cols:2
+            size_hint:0.2,0.2
+            padding:10,10
+            spacing:10,0
+            Button:
+                text:"Forgot Password"
+                on_press:root.forgot_password()
+                background_color: 1,1,1,0
+                opacity: 1 if self.state == 'normal' else 0.6
+                color: 0.4,0.7,0.6,1
+            Button:
+                text:"Sign Up"
+                on_press: root.sign_up()
+                background_color: 1,1,1,0
+                opacity: 1 if self.state == 'normal' else 0.6
+                color: 0.4,1,0.4,1
+<CustomerSignUpScreen>:
+    GridLayout:
+        cols:1
+        padding:20,20
+        spacing:20,20
+        Label:
+            text:"Customer Sign Up"
+            text_size:self.width,None
+            size_hint_y:None
+            height:self.texture_size[1]
+        TextInput:
+            id: username
+            hint_text:"New Username " 
+        TextInput:
+            id: password
+            hint_text: "Password" 
+        TextInput:
+            id:question
+            hint_text:"What is Your Favorite Fodd?"
+        RelativeLayout:
+            Button:
+                text:"Submit" 
+                on_press: root.add_user(root.ids.username.text,root.ids.password.text,root.ids.question.text)    
+                size_hint :0.3,0.5
+                pos_hint: {'center_x' : 0.5 , 'center_y' : 0.6}
+
+<SignUpSuccessfulScreen>:
+    GridLayout:
+        cols:1
+        Label:
+            text:"You have created the account."
+        Label:
+            text:"Sign Up was Successful!"
+        RelativeLayout:
+            Button:
+                text:"Login Page"
+                on_press:root.go_to_login_page()
+                size_hint :0.3,0.5
+                pos_hint: {'center_x' : 0.5 , 'center_y' : 0.6}       
+
+<CusForgotPasswordScreen>:
+    GridLayout:
+        cols:1
+        padding:30,30
+        spacing: 30,30
+        Label:
+            text:"If You have forgot the password"
+        TextInput:
+            id:username
+            hint_text:"Username"
+        Label:
+            text:"What is your Favorite Food?"
+        TextInput:
+            id:extraquestion
+            hint_text:"Your Answer."
+        RelativeLayout:
+            Button:
+                text:"Get your password."
+                on_press : root.fetch_answer(root.ids.username.text,root.ids.extraquestion.text)
+                background_color: 1,1,1,0
+                opacity: 1 if self.state == 'normal' else 0.6
+                color: 0.8,0.6,0.5,1
+                pos_hint: {'center_x' : 0.5 , 'center_y' : 0.6}
+        Label:
+            id:answer
+            text:""
+            text_size:self.width,None
+            size_hint_y:None
+            height:self.texture_size[1]
+        RelativeLayout:
+            Button:
+                text:"Login"
+                on_press: root.go_to_loginpage()
+                size_hint :0.3,0.5
+                pos_hint: {'center_x' : 0.5 , 'center_y' : 0.6}
+
+<CustomerAuthDisplay>:
+    GridLayout:
+        cols:1
+        padding:30,30
+        spacing: 30,30
+        Label:
+            text:"Type the customer name specified on the Loan "
+        TextInput:
+            id:cname
+            hint_text:"CustomerName"
+        RelativeLayout:
+            Button:
+                text:"Display"
+                on_press: root.go_to_authenticate(root.ids.cname.text)
+                size_hint :0.3,0.5
+                pos_hint: {'center_x' : 0.5 , 'center_y' : 0.6}
+        Label:
+            id:gettt
+            text:""
+
+
+<CV>:
+    BoxLayout:
+        padding:15,15
+        spacing:20,20
+        orientation: "vertical"
+        RelativeLayout:
+            ImageButton:
+                on_press : root.logout_screen()
+                source: 'logout_hover.png' if self.hovered else 'logout_nothover.png'
+                size_hint : 0.35,0.35
+                pos_hint : {'center_x' : 0.93 , 'center_y' : 0.8}
+        GridLayout:
+            size_hint: 1, None
+            size_hint_y: None
+            height: 25
+            cols: 11
+
+            Label:
+                text: "LoanID"
+            Label:
+                text: "Name"
+            Label:
+                text:"Tenure"
+            Label:
+                text:"Balance"
+            Label:
+                text:"LoanType"
+            Label:
+                text:"InterestType"
+            Label:
+                text:"Interest % p.a."
+            Label:
+                text:"Security"
+            Label:
+                text:"Total"
+            Label:
+                text:"EMI"
+            Label:
+                text:"Request" 
+
+        BoxLayout:
+            RecycleView:
+                viewclass: 'SelectableLabel'
+                data: [{'text': str(x)} for x in root.data_items]
+                SelectableRecycleGridLayout:
+                    cols: 11
+                    default_size: None, dp(26)
+                    default_size_hint: 1, None
+                    size_hint_y: None
+                    height: self.minimum_height
+                    #orientation: 'vertical'
+                    multiselect: True
+                    touch_multiselect: True
+
+
+
+<RootWidget>:
+    MainScreen:
+        name:"mainfirst_screen"
+    AdminScreenFirst:
+        name:"adminfirst_screen"
+    AdminScreenSecond:
+        name:"adminsecond_screen"
+    AdminPendingScreen:
+        name:"adminPending_screen"
+    RV:
+        name:"rv_screen"
+    APV:
+        name:"approved_screen"
+    REV:
+        name:"rejected_screen"
+    AgentScreenFirst:
+        name:"agentfirst_screen"
+    AgentSignUpScreen:
+        name:"agent_sign_up_screen"
+    AgtForgotPasswordScreen:
+        name:"agent_forgot_password_screen"
+    AgentScreenSecond:
+        name: "agentsecond_screen"
+    VV:
+        name:"viewall_loans"
+    AgentAddScreen:
+        name:"agentadd_loan"
+    AgentAddSuccessful:
+        name:"agent_add_successfull_screen"
+    AgentApplySuccesful:
+        name:"agent_apply_successful_screen"
+    CustomerSignInScreen:
+        name:"customer_signin_screen"
+    CustomerSignUpScreen:
+        name:"customer_sign_up_screen"
+    CusForgotPasswordScreen:
+        name:"customer_forgot_password_screen"
+    CustomerAuthDisplay:
+        name:"customer_autheticate_screen"
+    CV:
+        name:"cv_screen"
+    SignUpSuccessfulScreen:
+        name:"sign_up_successful_screen"
